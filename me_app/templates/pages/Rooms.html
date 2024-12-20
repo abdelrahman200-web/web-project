@@ -1,0 +1,52 @@
+
+{% block title %}
+Rooms
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="../../static/Room.css">
+{% endblock %}
+
+{% block content %}
+<div class="Rooms">
+    <form class="room-form" id="room-form">
+        <fieldset>
+            <legend>Room Information</legend>
+            <input type="number" name="roomNumber" id="room-number" class="form-item" placeholder="Room number">
+            <input type="text" name="roomType" id="room-type" class="form-item" placeholder="Room type">
+            <input type="number" name="roomFloor" id="room-floor" class="form-item" placeholder="Room floor">
+            <input type="number" name="maxCapacity" id="max" class="form-item" placeholder="Maximum capacity">
+            <input type="number" name="price" id="price" class="form-item" placeholder="Price per night">
+            <input type="text" name="features" id="features" class="form-item-f" placeholder="Features">
+            <br><br>
+            <button type="submit" class="sub-info">Submit</button>
+            <button type="button" class="search-button">Search</button>
+        </fieldset>
+    </form>
+</div>
+
+<div class="show-rooms-data">
+    <div class="show-rooms-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Room number</th>
+                    <th>Room type</th>
+                    <th>Room floor</th>
+                    <th>Maximum capacity</th>
+                    <th>Price per night</th>
+                    <th>Features</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- show the all room in database -->
+                {% for room in rooms %}
+                
+            {% endfor %}
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

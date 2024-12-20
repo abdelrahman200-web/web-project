@@ -1,0 +1,61 @@
+.Registration-costomer form {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.Registration-costomer fieldset {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.Registration-costomer legend {
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.Registration-costomer label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.Registration-costomer input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.Registration-costomer .form-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Registration-costomer .form-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Registration-costomer .form-buttons .submit-btn {
+    background-color: #FCC737;
+    color: white;
+}
+
+.Registration-costomer .form-buttons .reset-btn {
+    background-color: #ccc;
+    color: black;
+}
+
+.Registration-costomer .form-buttons button:hover {
+    opacity: 0.9;
+}
+

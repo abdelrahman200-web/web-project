@@ -1,0 +1,72 @@
+{% extends "index.html" %}
+{% block title %} home {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="../../static/style-dashboard.css">
+{% endblock %}
+{% block content %}
+<div class="header-dashboard">
+    <h2>Welcome Abdelrahman</h2>
+    <img class="icon-user" src="../../static/icons/User.png" alt="User Icon">
+</div>
+<div class="dashboard">
+    <div class="dashboard-item item1">
+        <div class="icon">
+           <img src="../../static/icons/Sleeping in Bed.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Total Hotel Rooms</h3>
+            {{ total_hotel_rooms }}
+        </div>
+    </div>    
+    <div class="dashboard-item item2">
+        <div class="icon">
+            <img src="../../static/icons/Facebook Like.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Ready Rooms</h3>
+            {{ ready_room_no }}
+        </div>
+    </div>
+    <div class="dashboard-item item3">
+        <div class="icon">
+            <img src="../../static/icons/Hotel Check In.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Check In</h3>
+            {{ check_in_no }}
+        </div>
+    </div>
+    <div class="dashboard-item item4">
+        <div class="icon">
+            <img src="../../static/icons/Hotel Check Out.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Check Out</h3>
+            {{ check_out_no }}
+        </div>
+    </div>
+    <div class="dashboard-item item5">
+        <div class="icon">
+            <img src="../../static/icons/Staff.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Staff</h3>
+            {{ staff_no }}
+        </div>
+    </div>
+    <div class="dashboard-item item6">
+        <div class="icon">
+            <img src="../../static/icons/Order Completed.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Complaints</h3>
+            {{ complaints_num }}
+        </div>
+    </div>
+    <div class="dashboard-item item7">
+        <div class="item">
+          <img src="../../static/icons/5e62f6ee447d120c93b1bc39_pie chart sample 1.webp" alt="">
+        </div>
+    </div>
+</div>
+{% endblock %}
