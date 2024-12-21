@@ -28,10 +28,10 @@ def register_customer():
         return jsonify({"error": str(e)}), 400
 
 # Route to delete a room by RoomNo
-@bp.route('/rooms/<int:room_no>', methods=['DELETE'])
-def delete_room(room_no):
+@bp.route('/room/delate/<Room_number>', methods=['DELETE'])
+def delete_room(Room_number):
     try:
-        models.delate_Room(room_no)  # Call delate_Room function from models
+        models.delate_Room(Room_number) 
         return jsonify({"message": "Room deleted successfully."}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -75,7 +75,7 @@ def get_customers_check_out():
         return jsonify({"error": str(e)}), 500
     
 # Route to handle room addition
-@bp.route('/add-room', methods=['POST'])
+@bp.route('/addroom', methods=['POST'])
 def add_room_route():
     data = request.json 
     try:
@@ -88,7 +88,6 @@ def add_room_route():
         status = data['status']        
         message, status_code = models.add_Room(Room_number, Roomtype, floorNumber, max, price, F, status)
         return jsonify({"message": message}), status_code
-    
     except KeyError as e:
         return jsonify({"error": f"Missing parameter: {str(e)}"}), 400 
     
@@ -101,7 +100,7 @@ def update_room_route():
         Room_number = data['Room_number']
         Roomtype = data['Roomtype']
         floorNumber = data['floorNumber']
-        max_capacity = data['max_capacity']
+        max_capacity = data['max']
         price = data['price']
         F = data['F']
         status = data['status']

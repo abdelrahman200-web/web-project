@@ -46,11 +46,11 @@ try:
                         INSERT INTO Room (RoomNo, Roomtype, floorNumber, Max, price, F, status)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                         """, (Room_number, Roomtype, floorNumber, max, price, F, status))
-                        connection.commit()
+                        connection.commit()                        
                         return ("New Room added successfully."),201
                 except Exception as e:
                       print(e),404 
-                      
+        
         # route
         def delate_Room(RoomNo):
             try:
