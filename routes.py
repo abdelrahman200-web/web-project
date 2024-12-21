@@ -2,6 +2,7 @@ from flask import Flask , jsonify , Blueprint, request
 import models
 bp=Blueprint("route",__name__)
 # Route to add a new registration
+# Returns Else statement response
 @bp.route('/register', methods=['POST'])
 def register_customer():
     try:
@@ -22,7 +23,7 @@ def register_customer():
         )):
          return jsonify({"message": "Registration added successfully."}), 201
         else:
-               return jsonify({"error": str(e)}), 400   
+         return jsonify({"error": "An error occurred while processing the request."}), 400  
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -36,6 +37,7 @@ def delete_room(room_no):
         return jsonify({"error": str(e)}), 400
 
 # route to return the data for dashboard
+#No Problem
 @bp.route('/dashboard', methods=['GET'])
 def get_dashboard_data():
     try:
@@ -54,6 +56,7 @@ def get_dashboard_data():
         return jsonify({"error": str(e)}), 500
 
 # Route to get customers who are checked in
+# Returns [] empty 
 @bp.route('/customers/checkin', methods=['GET'])
 def get_customers_check_in():
     try:
