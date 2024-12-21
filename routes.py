@@ -23,7 +23,7 @@ def register_customer():
         )):
          return jsonify({"message": "Registration added successfully."}), 201
         else:
-               return jsonify({"error": str(e)}), 400   
+         return jsonify({"error": "An error occurred while processing the request."}), 400  
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
