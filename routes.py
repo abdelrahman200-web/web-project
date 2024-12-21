@@ -2,6 +2,7 @@ from flask import Flask , jsonify , Blueprint, request
 import models
 bp=Blueprint("route",__name__)
 # Route to add a new registration
+# Returns Else statement response
 @bp.route('/register', methods=['POST'])
 def register_customer():
     try:
@@ -22,7 +23,7 @@ def register_customer():
         )):
          return jsonify({"message": "Registration added successfully."}), 201
         else:
-               return jsonify({"error": "An error occurred while processing the request."}), 400   
+               return jsonify({"error": str(e)}), 400   
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -36,6 +37,7 @@ def delete_room(room_no):
         return jsonify({"error": str(e)}), 400
 
 # route to return the data for dashboard
+#No Problem
 @bp.route('/dashboard', methods=['GET'])
 def get_dashboard_data():
     try:
@@ -53,6 +55,7 @@ def get_dashboard_data():
         return jsonify({"error": str(e)}), 500
 
 # Route to get customers who are checked in
+# Returns [] empty 
 @bp.route('/customers/checkin', methods=['GET'])
 def get_customers_check_in():
     try:
@@ -62,6 +65,7 @@ def get_customers_check_in():
         return jsonify({"error": str(e)}), 500
 
 # Route to get customers who have checked out
+# Returns [] empty 
 @bp.route('/customers/checkout', methods=['GET'])
 def get_customers_check_out():
     try:
@@ -89,6 +93,7 @@ def add_room_route():
         return jsonify({"error": f"Missing parameter: {str(e)}"}), 400 
     
   # Route to handle update-room
+  # Working
 @bp.route('/update-room', methods=['POST'])
 def update_room_route():
     data = request.json  # Get data from request body
@@ -108,6 +113,7 @@ def update_room_route():
         return jsonify({"error": f"Missing parameter: {str(e)}"}), 400  # Bad request if parameters are missing
 
 # Route for signing in a new user
+# Working
 @bp.route('/sign_in', methods=['POST'])
 def sign_in():
     try:
@@ -127,6 +133,7 @@ def sign_in():
         return jsonify({"error": str(e)}), 500
 
 # Route for logging in a user
+# Error 500
 @bp.route('/log_in', methods=['POST'])
 def log_in():
     try:
@@ -150,6 +157,7 @@ def log_in():
         return jsonify({"error": str(e)}), 500
     
 # Route for editing a user
+# Message 200
 @bp.route('/edit_user', methods=['PUT'])
 def edit_user():
     try:
@@ -168,6 +176,7 @@ def edit_user():
         return jsonify({"error": str(e)}), 500
 
 # Route for inserting a request
+# Message 201
 @bp.route('/insert_request', methods=['POST'])
 def insert_request():
     try:
@@ -187,6 +196,7 @@ def insert_request():
         return jsonify({"error": str(e)}), 500
 
 # Route for checking out a customer
+# Return 200
 @bp.route('/check_out', methods=['PUT'])
 def check_out():
     try:
@@ -198,6 +208,7 @@ def check_out():
         return jsonify({"error": str(e)}), 500
     
 # Route for show all registration in a customer
+# Return 200
 @bp.route('/registrationAll', methods=['GET'])
 def show_all_registration():
     try:
@@ -206,6 +217,7 @@ def show_all_registration():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 # Route for sarch a customer by name
+# IDK Return 404
 @bp.route('/sarch/<int:costomer_name>', methods=['GET'])
 def sherch_costomer(costomer_name):
     try:
@@ -215,6 +227,7 @@ def sherch_costomer(costomer_name):
         return jsonify({"error": str(e)}), 500
     
 # Route to search customer by ID
+# Return line 237 --> 404
 @bp.route('/customer/<int:customer_id>', methods=['GET'])
 def search_customer(customer_id):
     try:
@@ -226,6 +239,7 @@ def search_customer(customer_id):
         return jsonify({"error": str(e)}), 500
 
 # Route to search registration by ID
+# Return line 249 --> 404
 @bp.route('/registration/<int:registration_id>', methods=['GET'])
 def search_registration(registration_id):
     try:
@@ -237,6 +251,7 @@ def search_registration(registration_id):
         return jsonify({"error": str(e)}), 500
 
 # Route to search requests by ID
+# Return line 261 --> 404
 @bp.route('/request/<int:request_id>', methods=['GET'])
 def search_request(request_id):
     try:
@@ -248,6 +263,7 @@ def search_request(request_id):
         return jsonify({"error": str(e)}), 500
 
 # Route to update the status of a request
+# Return 400 
 @bp.route('/request/<int:request_id>/status', methods=['PUT'])
 def update_request_status(request_id):
     try:
