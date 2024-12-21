@@ -107,3 +107,63 @@ def update_room_route():
         
     except KeyError as e:
         return jsonify({"error": f"Missing parameter: {str(e)}"}), 400  # Bad request if parameters are missing
+
+# Route for signing in a new user
+@bp.route('/sign_in', methods=['POST'])
+def sign_in():
+    try:
+        # Extract data from the request
+        data = request.json
+        user_ID = data.get('user_ID')
+        name = data.get('name')
+        email = data.get('email')
+        password = data.get('password')
+        phone = data.get('phone')
+        first = data.get('first', 1)  # Default to 1 if not provided
+
+        # Call the sign_in function from models
+        result = models.sign_in(user_ID, name, email, password, phone, first)
+        return jsonify({"message": result}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route for logging in a user
+@bp.route('/log_in', methods=['POST'])
+def log_in():
+    try:
+        data = request.json
+        user_ID = data.get('user_ID')
+        password = data.get('password')
+
+        result = models.log_in(user_ID, password)
+        # shold be return html page for reset password
+        if result == "reset":
+            return jsonify({"message": "Password reset required."}), 200
+        elif result == True:
+            return jsonify({"message": "Login successful."}), 200
+        elif result == "Invalid password":
+            return jsonify({"error": "Invalid password."}), 401
+        elif result == "User not found":
+            return jsonify({"error": "User not found."}), 404
+        else:
+            return jsonify({"error": result}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# Route for editing a user
+@bp.route('/edit_user', methods=['PUT'])
+def edit_user():
+    try:
+        # Extract data from the request
+        data = request.json
+        user_ID = data.get('user_ID')
+        name = data.get('name')
+        phone = data.get('phone')
+        password = data.get('password')
+        email = data.get('email')
+
+        # Call the edit_user function from models
+        result = models.edit_user(user_ID, name, phone, password, email)
+        return jsonify({"message": result}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

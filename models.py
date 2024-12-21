@@ -71,6 +71,7 @@ try:
               return f"Error updating room: {e}"
             # ================================================================`
                 # frist = 0 becase the frist registration by maneger
+              #route
         def sign_in(user_ID, name, email, password, phone, first):
               try:
                  query = "INSERT INTO user (user_ID, name, email, phone, password, first) VALUES (?, ?, ?, ?, ?, ?)"
@@ -81,6 +82,7 @@ try:
                  return f"Error signing in: {e}"
         # ================================================================
         # shold be check the frist 0 or 1 if 0 shold be reset the password
+         #route
         def log_in(user_ID , password):
              try:
               query = "SELECT user_ID, password, first FROM user WHERE user_ID = ?"
@@ -97,6 +99,7 @@ try:
                return "User not found"
              except Exception as e:
               return f"Error during login: {e}"
+        #route
         def edit_user(user_ID, name, phone, password, email):
              try:
                  query = """UPDATE user 
