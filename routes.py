@@ -1,8 +1,41 @@
-from flask import Flask , jsonify , Blueprint, request
+from flask import Flask , jsonify , Blueprint, request, render_template
 import models
-bp=Blueprint("route",__name__)
+bp=Blueprint("route",__name__ , template_folder='templates')
 # Route to add a new registration
 # Returns Else statement response
+# ===========================================================================
+# route for pages template
+# ===========================================================================
+@bp.route('/home', methods=['GET'])
+def home():
+    return render_template('pages/home.html')
+
+@bp.route('/login', methods=['GET'])
+def login():
+    return render_template('pages/login.html')
+
+@bp.route('/register-customer', methods=['GET'])
+def register_customer_pages():
+    return render_template('pages/Registration-costomer.html')
+
+@bp.route('/rooms', methods=['GET'])
+def rooms_pages():
+    return render_template('pages/Rooms.html')
+
+@bp.route('/show-customer', methods=['GET'])
+def show_customer_pages():
+    return render_template('pages/show-customer.html')
+
+@bp.route('/signin', methods=['GET'])
+def signin_pages():
+    return render_template('pages/singin.html')
+
+@bp.route('/index', methods=['GET'])
+def index_pages():
+    return render_template('pages/index.html')
+
+# ===========================================================================
+# ===========================================================================
 @bp.route('/register', methods=['POST'])
 def register_customer():
     try:
