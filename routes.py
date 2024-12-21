@@ -22,7 +22,7 @@ def register_customer():
         )):
          return jsonify({"message": "Registration added successfully."}), 201
         else:
-               return jsonify({"error": str(e)}), 400   
+               return jsonify({"error": "An error occurred while processing the request."}), 400   
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -40,7 +40,6 @@ def delete_room(room_no):
 def get_dashboard_data():
     try:
         Ready_room, Room_count, registration_number, Requests_number, Complaints_number = models.dashbord()
-        
         response = {
             "Ready_room": Ready_room,
             "Room_count": Room_count,
@@ -74,7 +73,7 @@ def get_customers_check_out():
 # Route to handle room addition
 @bp.route('/add-room', methods=['POST'])
 def add_room_route():
-    data = request.json  
+    data = request.json 
     try:
         Room_number = data['Room_number']
         Roomtype = data['Roomtype']
@@ -85,7 +84,7 @@ def add_room_route():
         status = data['status']        
         message, status_code = models.add_Room(Room_number, Roomtype, floorNumber, max, price, F, status)
         return jsonify({"message": message}), status_code
-        
+    
     except KeyError as e:
         return jsonify({"error": f"Missing parameter: {str(e)}"}), 400 
     

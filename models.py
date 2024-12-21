@@ -19,24 +19,24 @@ try:
         # add new registration
         # we shold add the status in request 
         #route
-        def add_registration( Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount, RemainingAmount, StayDuration, 
-                             accommodation, note, customer, RoomNo, status):
-                try:
-                        query = f"""
-                         INSERT INTO registration (
-                          Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount, RemainingAmount, 
-                         StayDuration, accommodation, note, customer, RoomNo, status
-                         )
-                         VALUES (
-                                   {Id}, '{CheckInDate}', '{CheckOutDate}', {TotalAmount}, {PaidAmount}, {RemainingAmount}, 
-                                   '{StayDuration}', '{accommodation}', '{note}', {customer}, {RoomNo}, '{status}'
-                          )
-                         """
-                        pointer.execute(query)
-                        return 1
-                except Exception as e:
-                         print(e),0
-
+        def add_registration(Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount, RemainingAmount, StayDuration, accommodation, note, customer, RoomNo, status):
+            try:
+                 query = '''
+            INSERT INTO registration (
+                Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount,
+                RemainingAmount, StayDuration, accommodation, note,
+                customer, RoomNo, status
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        '''
+                 pointer.execute(query, (Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount,
+                                RemainingAmount, StayDuration, accommodation, note,
+                                customer, RoomNo, status))
+                 connection.commit()
+                 return True
+            except Exception as e:
+              print(f"Error in add_registration: {e}")
+              return False
         # ================================================================
         # ==========================data access for Room =================
         #route
@@ -44,11 +44,13 @@ try:
                 try:
                         pointer.execute("""
                         INSERT INTO Room (RoomNo, Roomtype, floorNumber, Max, price, F, status)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
                         """, (Room_number, Roomtype, floorNumber, max, price, F, status))
+                        connection.commit()
                         return ("New Room added successfully."),201
                 except Exception as e:
-                         print(e),404 
+                      print(e),404 
+                      
         # route
         def delate_Room(RoomNo):
             try:
