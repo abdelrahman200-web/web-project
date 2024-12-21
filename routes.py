@@ -167,3 +167,94 @@ def edit_user():
         return jsonify({"message": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# Route for inserting a request
+@bp.route('/insert_request', methods=['POST'])
+def insert_request():
+    try:
+        # Extract data from the request
+        data = request.json
+        requests_no = data.get('requests_no')
+        request_type = data.get('request_type')
+        request_status = data.get('request_status')
+        request_details = data.get('request_details')
+        room_id = data.get('room_id')
+        amount = data.get('amount')
+
+        # Call the insert_request function from models
+        result = models.insert_request(requests_no, request_type, request_status, request_details, room_id, amount)
+        return jsonify({"message": result}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route for checking out a customer
+@bp.route('/check_out', methods=['PUT'])
+def check_out():
+    try:
+        data = request.json
+        registration_number = data.get('registration_number')
+        result = models.Check_out(registration_number)
+        return jsonify({"message": result}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# Route for show all registration in a customer
+@bp.route('/registrationAll', methods=['GET'])
+def show_all_registration():
+    try:
+        all_registration = models.show_all_registration()
+        return jsonify([dict(row) for row in all_registration]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+# Route for sarch a customer by name
+@bp.route('/sarch/<int:costomer_name>', methods=['GET'])
+def sherch_costomer(costomer_name):
+    try:
+        all_registration = models.search_customer(costomer_name)
+        return jsonify([dict(row) for row in all_registration]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# Route to search customer by ID
+@bp.route('/customer/<int:customer_id>', methods=['GET'])
+def search_customer(customer_id):
+    try:
+        result = models.sherch_coustomer_id(customer_id)
+        if isinstance(result, str):  # Handle "Customer not found" or error message
+            return jsonify({"message": result}), 404
+        return jsonify([dict(row) for row in result]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route to search registration by ID
+@bp.route('/registration/<int:registration_id>', methods=['GET'])
+def search_registration(registration_id):
+    try:
+        result = models.sherch_registration_id(registration_id)
+        if isinstance(result, str):  # Handle "Registration not found" or error message
+            return jsonify({"message": result}), 404
+        return jsonify([dict(row) for row in result]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route to search requests by ID
+@bp.route('/request/<int:request_id>', methods=['GET'])
+def search_request(request_id):
+    try:
+        result = models.sherch_requests_by_id(request_id)
+        if len(result) == 0:
+            return jsonify({"message": "Request not found."}), 404
+        return jsonify([dict(row) for row in result]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route to update the status of a request
+@bp.route('/request/<int:request_id>/status', methods=['PUT'])
+def update_request_status(request_id):
+    try:
+        result = models.updata_status_requests(request_id)
+        if "successfully" in result:
+            return jsonify({"message": result}), 200
+        return jsonify({"message": result}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

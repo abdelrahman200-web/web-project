@@ -122,7 +122,8 @@ try:
                return f"Error resetting password: {e}"        
         # ================================================================
         # ==========================data access for request =================    
-        #                      
+        #          
+        # route            
         def insert_request(requests_no, request_type, request_status, request_details, room_id, amount):
                  try: 
                          query = '''
@@ -137,6 +138,7 @@ try:
         # ================================================================
         #========data access for check out the coustomer =================    
         #   
+        #route
         def Check_out(Registration_number):
                  try:
                      query = "UPDATE registration SET status = 'check out' WHERE id = ?"
@@ -148,6 +150,7 @@ try:
         # ================================================================
         # ===data access for fillter the sherch for all the registration in check in and check out =================    
         #   
+        #route
         def show_all_registration():
                  try:
                      result = pointer.execute("SELECT * FROM registration").fetchall()
@@ -176,6 +179,7 @@ try:
                 return []
             # ================================================================
         # ===data access for sherch for coustomer by name =================  
+        # route
         def search_customer(name):
             try:
                query = "SELECT * FROM customer WHERE name = ?"
@@ -187,6 +191,7 @@ try:
                 return str(e)
 
        #    sherch the coutomer by id
+        #route
         def sherch_coustomer_id(ID):
            try:
              query = "SELECT * FROM customer WHERE id = ?"
@@ -197,6 +202,7 @@ try:
            except Exception as e:
             return str(e)
         # for sherch the registration by ID
+        #route
         def sherch_registration_id(ID):
               try:
                   query = "SELECT * FROM registration WHERE Id = ?"
@@ -208,6 +214,7 @@ try:
                  return str(e)
 
         # sherch for Requests by id
+        #route
         def sherch_requests_by_id(ID):
             try:
              query = "SELECT * FROM Requests WHERE [Requests-No] = ?"
@@ -217,6 +224,7 @@ try:
                 return str(e)
 
         # updata the status for requests
+        #route
         def updata_status_requests(ID)  :
            try:
             query = "UPDATE Requests SET [request-status] = 'completed' WHERE Id = ?"
