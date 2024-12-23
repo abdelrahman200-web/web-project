@@ -1,8 +1,7 @@
 from flask import Flask , jsonify , Blueprint, request, render_template
-import models
-bp=Blueprint("route",__name__ , template_folder='templates')
-# Route to add a new registration
-# Returns Else statement response
+import models as models
+bp=Blueprint("route",__name__)
+
 # ===========================================================================
 # route for pages template
 # ===========================================================================
@@ -15,27 +14,32 @@ def login():
     return render_template('pages/login.html')
 
 @bp.route('/register-customer', methods=['GET'])
-def register_customer_pages():
+def page_register_customer():
     return render_template('pages/Registration-costomer.html')
 
 @bp.route('/rooms', methods=['GET'])
-def rooms_pages():
+def page_rooms():
     return render_template('pages/Rooms.html')
 
 @bp.route('/show-customer', methods=['GET'])
-def show_customer_pages():
+def page_show_customer():
     return render_template('pages/show-customer.html')
 
 @bp.route('/signin', methods=['GET'])
-def signin_pages():
+def page_signin():
     return render_template('pages/singin.html')
 
 @bp.route('/index', methods=['GET'])
-def index_pages():
+def index():
     return render_template('pages/index.html')
 
 # ===========================================================================
 # ===========================================================================
+
+
+
+# Route to add a new registration
+# Returns Else statement response
 @bp.route('/register', methods=['POST'])
 def register_customer():
     try:
