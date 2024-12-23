@@ -45,26 +45,26 @@ def page_signin():
 def register_customer():
     try:
         data = request.json
-        if models.add_registration(
+        result = models.add_registration(
             Id=data['Id'],
             CheckInDate=data['registrationDate'],
             CheckOutDate=data['checkOutDate'],
-            TotalAmount=data['requiredAmount'],  
+            TotalAmount=data['requiredAmount'],
             PaidAmount=data['paidAmount'],
             RemainingAmount=data['remainingAmount'],
             StayDuration=data['duration'],
             accommodation=data['accommodationType'],
-            note=data['roomDetails'], 
-            customer=data['name'], 
+            note=data['roomDetails'],
+            customer=data['name'],
             RoomNo=data['roomNumber'],
             status='check in'
-        ):
+        )
+        if result:
             return jsonify({"message": "Registration added successfully."}), 201
         else:
             return jsonify({"error": "An error occurred while processing the request."}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
     
 # Route to delete a room by RoomNo
 @bp.route('/room/delate/<Room_number>', methods=['DELETE'])
@@ -143,11 +143,9 @@ def update_room_route():
         max_capacity = data['max']
         price = data['price']
         F = data['F']
-        status = data['status']
-        
+        status = data['status']        
         result = models.update_room_info(Room_number, Roomtype, floorNumber, max_capacity, price, F, status)
-        return jsonify({"message": result}), 200  # Return success message
-        
+        return jsonify({"message": result}), 200  # Return success message        
     except KeyError as e:
         return jsonify({"error": f"Missing parameter: {str(e)}"}), 400  # Bad request if parameters are missing
 
@@ -416,4 +414,3 @@ def show_all_customers_route():
 
 #     # Render password reset form
 #     return render_template('new_password.html', email=email)
-

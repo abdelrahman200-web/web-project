@@ -44,34 +44,36 @@ document.getElementById("submitBtn").addEventListener("click", function() {
     }
 });
 // Function to load customers (could be called after adding a customer)
-function loadCustomers() {
-    fetch('/customers')
+function fetchRegistrations() {
+    fetch('/registrationAll')
         .then(response => response.json())
-        .then(customers => {
-            const tableBody = document.querySelector("#customerTableBody tbody"); 
-            tableBody.innerHTML = ""; 
+        .then(registrations => {
+            const tableBody = document.querySelector("#registrationTableBody tbody"); 
+            tableBody.innerHTML = ""; // Clear any existing rows
 
-            customers.forEach(customer => {
+            registrations.forEach(registration => {
                 const row = document.createElement("tr");
+
                 row.innerHTML = `
-                    <td>${customer.identity}</td>
-                    <td>${customer.name}</td>
-                    <td>${customer.phone}</td>
-                    <td>${customer.another_phone || "N/A"}</td>
-                    <td>${customer.age}</td>
-                    <td>${customer.email || "N/A"}</td>
-                    <td>${customer.nationality}</td>
-                    <td>${customer.type_of_proof_of}</td>
+                    <td>${registration.CustomerName}</td>
+                    <td>${registration.RoomNo}</td>
+                    <td>${registration.CheckInDate}</td>
+                    <td>${registration.CheckOutDate}</td>
+                    <td>${registration.TotalAmount}</td>
+                    <td>${registration.PaidAmount}</td>
+                    <td>${registration.RemainingAmount}</td>
+                    <td>${registration.Status}</td>
                     <td>
-                        <button class="delete-btn" data-id="${customer.identity}">Delete</button>
+                        <button class="delete-btn" data-id="${registration.Id}">Delete</button>
                     </td>
                 `;
+
                 tableBody.appendChild(row);
             });
         })
         .catch(error => {
             console.error('Error:', error);
-            alert("An error occurred while loading customers.");
+            alert("An error occurred while loading registrations.");
         });
 }
 function toggleForm() {

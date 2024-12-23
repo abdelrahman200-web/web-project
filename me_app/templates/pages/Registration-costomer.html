@@ -1,43 +1,107 @@
 {% extends "index.html" %}
+
 {% block title %}
-Customer Table
+Register Customer
 {% endblock %}
+
 {% block content %}
-<link rel="stylesheet" href="../../static/show-costomer.css">
-<link rel="stylesheet" href="../static/index.css">
+<link rel="stylesheet" href="../../static/register.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="icon" href="../static/icons/Home.png">
 
-<!-- Add Customer Form -->
-<div id="addCustomerForm">
-    <h2>Add New Customer</h2>
-    <form id="customerForm">
-        <input type="text" id="name" name="name" placeholder="Customer Name" required><br>
-        <input type="text" id="phone" name="phone" placeholder="Phone Number" required><br>
-        <input type="text" id="another-phone" name="another-phone" placeholder="Another Phone Number"><br>
-        <input type="number" id="age" name="age" placeholder="Age" required><br>
-        <input type="email" id="email" name="email" placeholder="Email" required><br>
-        <input type="text" id="nationality" name="nationality" placeholder="Nationality" required><br>
-        <input type="text" id="proof_of" name="proof_of" placeholder="Proof of Identity" required><br>
-        <button type="button" id="submitCustomerBtn">Submit</button>
-    </form>
-</div>
+<h1>Register New Customer</h1>
 
-<!-- Customer Table -->
-<table id="customerTable">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Nationality</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody id="customerTableBody">
-        <!-- Customer rows will be inserted here -->
-    </tbody>
-</table>
+<!-- Button to toggle the registration form -->
+<button id="toggleFormBtn">Add Registration</button>
 
+<!-- Registration Form -->
+<form id="registrationForm" style="display: none; margin-top: 20px;">
+    <label for="Id">registration ID</label>
+    <input type="number" id="Id" name="Id" required><br><br>
+
+    <label for="registrationDate">Registration Date:</label>
+    <input type="date" id="registrationDate" name="registrationDate" required><br><br>
+
+    <label for="checkOutDate">Check-Out Date:</label>
+    <input type="date" id="checkOutDate" name="checkOutDate" required><br><br>
+
+    <label for="requiredAmount">Required Amount:</label>
+    <input type="number" id="requiredAmount" name="requiredAmount" required><br><br>
+
+    <label for="paidAmount">Paid Amount:</label>
+    <input type="number" id="paidAmount" name="paidAmount" required><br><br>
+
+    <label for="remainingAmount">Remaining Amount:</label>
+    <input type="number" id="remainingAmount" name="remainingAmount" required><br><br>
+
+    <label for="duration">Duration (Days):</label>
+    <input type="text" id="duration" name="duration" required><br><br>
+
+    <label for="accommodationType">Accommodation Type:</label>
+    <input type="text" id="accommodationType" name="accommodationType" required><br><br>
+
+    <label for="roomDetails">Room Details:</label>
+    <input type="text"  id="roomDetails" name="roomDetails" required><br><br>
+
+    <label for="name">Customer ID:</label>
+    <input type="number" id="name" name="name" required><br><br>
+
+    <label for="roomNumber">Room Number:</label>
+    <input type="number" id="roomNumber" name="roomNumber" required><br><br>
+
+    <button type="submit">Submit Registration</button>
+</form>
+
+<div id="responseMessage" style="margin-top: 20px;"></div>
+
+<script>
+    document.getElementById("toggleFormBtn").addEventListener("click", function() {
+        const form = document.getElementById("registrationForm");
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block";
+            document.getElementById("toggleFormBtn").textContent = "Cancel Registration";
+        } else {
+            form.style.display = "none";
+            document.getElementById("toggleFormBtn").textContent = "Add Registration";
+        }
+    });
+
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = {
+            Id: document.getElementById('Id').value,
+            registrationDate: document.getElementById('registrationDate').value,
+            checkOutDate: document.getElementById('checkOutDate').value,
+            requiredAmount: document.getElementById('requiredAmount').value,
+            paidAmount: document.getElementById('paidAmount').value,
+            remainingAmount: document.getElementById('remainingAmount').value,
+            duration: document.getElementById('duration').value,
+            accommodationType: document.getElementById('accommodationType').value,
+            roomDetails: document.getElementById('roomDetails').value,
+            name: document.getElementById('name').value,
+            roomNumber: document.getElementById('roomNumber').value
+        };
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Registration added successfully') {
+                alert("Registration added successfully!");
+                
+            } else if (data.error) {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('responseMessage').innerText = 'An error occurred. Please try again later.';
+        });
+    });
+</script>
 {% endblock %}

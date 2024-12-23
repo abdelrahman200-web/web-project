@@ -33,8 +33,6 @@ document.getElementById("room-form").addEventListener("submit", function (event)
         alert('An error occurred while adding the room.');
     });
 });
-
-
 function loadRooms() {
     fetch('/show_rooms')
         .then(response => response.json())
@@ -63,6 +61,8 @@ function loadRooms() {
             alert("An error occurred while loading rooms.");
         });
 }
+
+
 
 window.onload = loadRooms;
 
