@@ -115,12 +115,12 @@ try:
               return f"Error editing user: {e}"
 
             #   this function is celld if the user login the frist time
-        def user_frist (user_ID, new_password):
+        def reset_password (user_ID, new_password):
             try:
              query = "UPDATE user SET password = ?, first = 1 WHERE user_ID = ?"
              pointer.execute(query, (new_password, user_ID))
              connection.commit()
-             return f"Password for user {user_ID} reset successfully."
+             return 1
             except Exception as e:
                return f"Error resetting password: {e}"        
         # ================================================================
@@ -243,5 +243,28 @@ try:
                 return result,200
             except Exception as e:
                 return str(e),404
+
+        #route
+        def add_customer(identity, name, phone, another_phone, age, email, nationality, type_of_proof_of):
+               try:
+                   insert_sql = """
+                INSERT INTO dbo.customer 
+                ([identity], [name], [phone], [another-phone], [age], [email], [nationality], [type-of-proof-of]) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                  """
+                   pointer.execute(insert_sql, (identity, name, phone, another_phone, age, email, nationality, type_of_proof_of))
+                   connection.commit()
+                   return "Customer added successfully."
+               except Exception as e:
+                 print(f"Error: {e}")
+         #route        
+        def get_customers():
+          try:
+              pointer.execute("SELECT * FROM customer")
+              customers = pointer.fetchall()
+              return customers,200
+          except Exception as e:
+                return str(e),404
+
 except Exception as e:
     print(e)  

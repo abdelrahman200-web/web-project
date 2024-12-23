@@ -1,111 +1,43 @@
 {% extends "index.html" %}
-
 {% block title %}
-Registration
+Customer Table
 {% endblock %}
-
-{% block head %}
-<link rel="stylesheet" href="../../static/R-costomer.css">
+{% block content %}
+<link rel="stylesheet" href="../../static/show-costomer.css">
 <link rel="stylesheet" href="../static/index.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="icon" href="../static/icons/Home.png">
-{% endblock %}
 
-{% block content %}
-<div class="Registration-costomer">
-    <form action="/checkin" method="post" id="registration-form">
-        <!-- Customer Information -->
-        <fieldset>
-            <legend>Customer Information</legend>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
-
-            <label for="nationality">Nationality:</label>
-            <input type="text" id="nationality" name="nationality" required>
-
-            <label for="phone">Phone Number:</label>
-            
-            <input type="tel" id="phone" name="phone" required>
-
-            <label for="other-phone">Other Phone Number:</label>
-            <input type="tel" id="other-phone" name="alternatePhone">
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
-        </fieldset>
-
-        <!-- Proof of Identity -->
-        <fieldset>
-            <legend>Proof of Identity</legend>
-            <label for="identity-type">Type of Proof:</label>
-            <select id="identity-type" name="identityProofType" required>
-                <option value="" disabled selected>Select type</option>
-                <option value="passport">Passport</option>
-                <option value="id-card">ID Card</option>
-                <option value="driver-license">Driver's License</option>
-            </select>
-
-            <label for="proof-details">Proof Details:</label>
-            <input type="text" id="proof-details" name="identityProof" required>
-        </fieldset>
-
-        <!-- Room Information -->
-        <fieldset>
-            <legend>Room Information</legend>
-            <label for="room-number">Room Number:</label>
-            <input type="number" id="room-number" name="roomNumber" placeholder="Select a vacant room" required>
-
-            <label for="room-details">Room Details:</label>
-            <textarea id="room-details" name="roomDetails" rows="3" disabled></textarea>
-        </fieldset>
-
-        <!-- Payment Information -->
-        <fieldset>
-            <legend>Payment Information</legend>
-            <label for="paid-amount">Paid Amount:</label>
-            <input type="number" id="paid-amount" name="paidAmount" required>
-
-            <label for="remaining-amount">Remaining Amount:</label>
-            <input type="number" id="remaining-amount" name="remainingAmount" required>
-
-            <label for="required-amount">Required Amount:</label>
-            <input type="number" id="required-amount" name="requiredAmount">
-        </fieldset>
-
-        <!-- Stay Details -->
-        <fieldset>
-            <legend>Stay Details</legend>
-            <label for="duration">Duration (in nights):</label>
-            <input type="number" id="duration" name="duration" required>
-
-            <label for="accommodation-type">Type of Accommodation:</label>
-            <select id="accommodation-type" name="accommodationType" required>
-                <option value="" disabled selected>Select type</option>
-                <option value="full">Full</option>
-                <option value="half">Half</option>
-            </select>
-
-            <label for="vip">VIP:</label>
-            <input type="checkbox" id="vip" name="isVip">
-        </fieldset>
-
-        <fieldset>
-            <legend>Dates</legend>
-            <label for="registration-date">Registration Date:</label>
-            <input type="date" id="registration-date" name="registrationDate" required>
-
-            <label for="checkout-date">Check-Out Date:</label>
-            <input type="date" id="checkout-date" name="checkOutDate" readonly>
-        </fieldset>
-
-        <!-- Form Buttons -->
-        <div class="form-buttons">
-            <button type="submit" class="submit-btn">Register</button>
-            <button type="reset" class="reset-btn">Reset</button>
-        </div>
+<!-- Add Customer Form -->
+<div id="addCustomerForm">
+    <h2>Add New Customer</h2>
+    <form id="customerForm">
+        <input type="text" id="name" name="name" placeholder="Customer Name" required><br>
+        <input type="text" id="phone" name="phone" placeholder="Phone Number" required><br>
+        <input type="text" id="another-phone" name="another-phone" placeholder="Another Phone Number"><br>
+        <input type="number" id="age" name="age" placeholder="Age" required><br>
+        <input type="email" id="email" name="email" placeholder="Email" required><br>
+        <input type="text" id="nationality" name="nationality" placeholder="Nationality" required><br>
+        <input type="text" id="proof_of" name="proof_of" placeholder="Proof of Identity" required><br>
+        <button type="button" id="submitCustomerBtn">Submit</button>
     </form>
 </div>
+
+<!-- Customer Table -->
+<table id="customerTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Nationality</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="customerTableBody">
+        <!-- Customer rows will be inserted here -->
+    </tbody>
+</table>
+
 {% endblock %}

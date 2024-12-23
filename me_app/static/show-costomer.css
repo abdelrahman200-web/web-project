@@ -1,0 +1,142 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Neutral background */
+    color: #333;
+}
+
+/* Button Styles */
+button {
+    background-color: #F5B813; /* Primary color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 20px 0;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #FCC737; /* Secondary color on hover */
+}
+
+/* Add Customer Form */
+#addCustomerForm {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#addCustomerForm form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#addCustomerForm input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#addCustomerForm button {
+    align-self: flex-start;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px 10px;
+}
+
+table thead {
+    background-color: #F5B813; /* Primary color */
+    color: white;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #fdf3d4; /* Light version of the secondary color */
+}
+
+table .delete-btn {
+    background-color: #FCC737; /* Secondary color */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+table .delete-btn:hover {
+    background-color: #e5a611;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tr {
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+select:focus {
+    border-color: #F5B813; /* Highlight with the primary color */
+    outline: none;
+}

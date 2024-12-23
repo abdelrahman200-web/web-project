@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+
+{% block title %}
+    Customer Table
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="../../static/show-costomer.css">
+<link rel="stylesheet" href="../static/index.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="icon" href="../static/icons/Home.png">
+
+<!-- Button to trigger form for adding new customer -->
+<button onclick="toggleForm()">Add New Customer</button>
+
+<!-- Form to Add New Customer -->
+<div id="addCustomerForm" style="display:none;">
+    <form action="" method="POST">
+        <form id="customerForm">
+            <input type="text" id="identity" placeholder="Identity" required>
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="phone" placeholder="Phone" required>
+            <input type="text" id="anotherPhone" placeholder="Another Phone">
+            <input type="number" id="age" placeholder="Age" required>
+            <input type="email" id="email" placeholder="Email">
+            <input type="text" id="nationality" placeholder="Nationality" required>
+            <label for="proofOf">Proof of Identity</label>
+            <select id="proofOf" required>
+                <option value="" disabled selected>Select Proof of Identity</option>
+                <option value="ID">ID</option>
+                <option value="Passport">Passport</option>
+            </select>
+                        <button type="button" id="submitBtn">Submit</button>
+        </form>
+        
+    </form>
+</div>
+
+<!-- Table to show customer data -->
+<table id="customerTableBody">
+    <thead>
+        <tr>
+            <th>Identity</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Another Phone</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Nationality</th>
+            <th>Proof of Identity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+        
+        {% endfor %}
+    </tbody>
+</table>
+<script src="../../static/costomer.js"></script>
+
+{% endblock %}

@@ -1,10 +1,13 @@
-from flask import Flask , jsonify , Blueprint, request, render_template
+from flask import Blueprint, request, jsonify, render_template, url_for
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 import models as models
 bp=Blueprint("route",__name__)
 
 # ===========================================================================
 # route for pages template
 # ===========================================================================
+
 @bp.route('/home', methods=['GET'])
 def home():
     Ready_room, Room_count, registration_number, Requests_number, Complaints_number,check_out = models.dashbord()
@@ -26,47 +29,43 @@ def page_rooms():
 
 @bp.route('/show-customer', methods=['GET'])
 def page_show_customer():
-    return render_template('pages/show-customer.html')
+    return render_template('pages/show-insert-customer.html')
 
 @bp.route('/signin', methods=['GET'])
 def page_signin():
     return render_template('pages/singin.html')
 
-@bp.route('/index', methods=['GET'])
-def index():
-    return render_template('index.html')
 
 # ===========================================================================
 # ===========================================================================
-
-
 
 # Route to add a new registration
 # Returns Else statement response
 @bp.route('/register', methods=['POST'])
 def register_customer():
     try:
-        data = request.json  # Get data from request body
-        if(models.add_registration(
+        data = request.json
+        if models.add_registration(
             Id=data['Id'],
-            CheckInDate=data['CheckInDate'],
-            CheckOutDate=data['CheckOutDate'],
-            TotalAmount=data['TotalAmount'],
-            PaidAmount=data['PaidAmount'],
-            RemainingAmount=data['RemainingAmount'],
-            StayDuration=data['StayDuration'],
-            accommodation=data['accommodation'],
-            note=data['note'],
-            customer=data['customer'],
-            RoomNo=data['RoomNo'],
+            CheckInDate=data['registrationDate'],
+            CheckOutDate=data['checkOutDate'],
+            TotalAmount=data['requiredAmount'],  
+            PaidAmount=data['paidAmount'],
+            RemainingAmount=data['remainingAmount'],
+            StayDuration=data['duration'],
+            accommodation=data['accommodationType'],
+            note=data['roomDetails'], 
+            customer=data['name'], 
+            RoomNo=data['roomNumber'],
             status='check in'
-        )):
-         return jsonify({"message": "Registration added successfully."}), 201
+        ):
+            return jsonify({"message": "Registration added successfully."}), 201
         else:
-         return jsonify({"error": "An error occurred while processing the request."}), 400  
+            return jsonify({"error": "An error occurred while processing the request."}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
+    
+    
 # Route to delete a room by RoomNo
 @bp.route('/room/delate/<Room_number>', methods=['DELETE'])
 def delete_room(Room_number):
@@ -314,6 +313,7 @@ def update_request_status(request_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+# Route to show all rooms
 @bp.route('/show_rooms', methods=['GET'])
 def show_all_rooms_route():
     try:
@@ -327,3 +327,93 @@ def show_all_rooms_route():
         return jsonify(rooms), status_code  
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+# Route to add new customer
+@bp.route('/add_customer', methods=['POST', 'GET'])
+def add_customer_route():
+    print(request.method)  # Check what method is being received
+    data = request.get_json()
+    try:
+        identity = data['identity']
+        name = data['name']
+        phone = data['phone']
+        another_phone = data.get('another-phone', None)
+        age = data['age']
+        email = data.get('email', None)
+        nationality = data['nationality']
+        type_of_proof_of = data['type_of_proof_of']
+        success = models.add_customer(identity, name, phone, another_phone, age, email, nationality, type_of_proof_of)
+        if success:
+            return jsonify({"message": "Customer added successfully!"}), 201
+        else:
+            return jsonify({"message": "Error adding customer."}), 500
+
+    except KeyError as e:
+        return jsonify({"message": f"Missing required field: {str(e)}"}), 400
+    
+# Route to show all customers
+@bp.route('/customers', methods=['GET'])
+def show_all_customers_route():
+    try:
+        result, status_code = models.get_customers()  
+        if status_code != 200:
+            return jsonify({"message": "No customers found."}), status_code 
+        customers = [
+            {"identity": row[0], "name": row[1], "phone": row[2], "another_phone": row[3],
+             "age": row[4], "email": row[5], "nationality": row[6], "type_of_proof_of": row[7]}
+            for row in result
+        ]
+        return jsonify(customers), status_code  
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), status_code
+
+# ===========================================================================
+# ===========================================================================
+
+
+# s = URLSafeTimedSerializer(bp.secret_key)
+
+
+
+# @bp.route('/send-reset-link', methods=['POST'])
+# def send_reset_link():
+#     data = request.json
+#     email = data.get('email')
+#     # Generate a secure token
+#     token = s.dumps(email, salt='password-reset-salt')
+
+#     # Create the reset link
+#     reset_link = url_for('reset_password', token=token, _external=True)
+
+#     # Send the email
+#     msg = Message('Password Reset Request', sender='bsyd654@gmail.com', recipients=[email])
+#     msg.body = f"Click the link to reset your password: {reset_link}"
+#     mail.send(msg)
+
+#     return jsonify({"message": "Reset link sent to your email."}), 200
+
+# @bp.route('/reset-password/<token>', methods=['GET', 'POST'])
+# def reset_password_route(token):
+#     try:
+#         email = s.loads(token, salt='password-reset-salt', max_age=3600)  # 1-hour token expiry
+#     except SignatureExpired:
+#         return "The reset link has expired!", 400
+#     except Exception as e:
+#         return f"An error occurred: {e}", 400
+
+#     if request.method == 'POST':
+#         new_password = request.form.get('password')
+#         if not new_password:
+#             return "Password is required.", 400
+        
+#         # Call the reset password function to update the database
+#         result = models.reset_password(email, new_password)
+#         if result == 1:  # Successful password reset
+#             return "Password updated successfully!", 200
+#         else:
+#             return f"Error updating password: {result}", 500
+
+#     # Render password reset form
+#     return render_template('new_password.html', email=email)
+
