@@ -7,7 +7,10 @@ bp=Blueprint("route",__name__)
 # ===========================================================================
 @bp.route('/home', methods=['GET'])
 def home():
-    return render_template('pages/home.html')
+    Ready_room, Room_count, registration_number, Requests_number, Complaints_number,check_out = models.dashbord()
+    return render_template('pages/home.html',total_hotel_rooms =Room_count , Ready_room = Ready_room , 
+                           check_in_no = registration_number,check_out_no = check_out, complaints_num = Complaints_number ,
+                           Requests = Requests_number)
 
 @bp.route('/login', methods=['GET'])
 def login():
@@ -31,7 +34,7 @@ def page_signin():
 
 @bp.route('/index', methods=['GET'])
 def index():
-    return render_template('pages/index.html')
+    return render_template('index.html')
 
 # ===========================================================================
 # ===========================================================================

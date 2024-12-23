@@ -14,7 +14,8 @@ try:
                     registration_number = pointer.execute("SELECT COUNT(*) FROM registration").fetchone()[0]
                     Requests_number = pointer.execute("SELECT COUNT(*) FROM Requests").fetchone()[0]
                     Complaints_number = pointer.execute("SELECT COUNT(*) FROM Complaints").fetchone()[0]
-                    return Ready_room , Room_count , registration_number , Requests_number , Complaints_number
+                    Check_out = pointer.execute("SELECT COUNT(*) FROM registration WHERE status = 'check out'").fetchone()[0]
+                    return Ready_room , Room_count , registration_number , Requests_number , Complaints_number , Check_out
         
         # add new registration
         # we shold add the status in request 

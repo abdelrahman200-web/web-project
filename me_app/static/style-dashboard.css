@@ -12,7 +12,7 @@
 
 .icon {
     width: 70px;
-    height: 70px; /* تم تعديل الارتفاع ليكون مناسبًا */
+    height: 70px; 
     background-color: #FCC737;
     border-radius: 10px;
     display: flex;
@@ -27,7 +27,7 @@
     border-radius: 10px;
     align-items: center;
     padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* إضافة تأثير الظل */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
 .dashboard-item h3 {
