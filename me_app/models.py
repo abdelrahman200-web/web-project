@@ -236,7 +236,12 @@ try:
             return "Request status updated successfully."
            except Exception as e:
              return str(e)
-
-                
+        #route
+        def show_all_room():
+            try:
+                result = pointer.execute("SELECT * FROM Room").fetchall()
+                return result,200
+            except Exception as e:
+                return str(e),404
 except Exception as e:
     print(e)  

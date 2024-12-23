@@ -81,13 +81,14 @@ def delete_room(Room_number):
 @bp.route('/dashboard', methods=['GET'])
 def get_dashboard_data():
     try:
-        Ready_room, Room_count, registration_number, Requests_number, Complaints_number = models.dashbord()
+        Ready_room, Room_count, registration_number, Requests_number, Complaints_number,check_out = models.dashbord()
         response = {
             "Ready_room": Ready_room,
             "Room_count": Room_count,
             "registration_number": registration_number,
             "Requests_number": Requests_number,
-            "Complaints_number": Complaints_number
+            "Complaints_number": Complaints_number,
+            "check_out": check_out
         }
         
         return jsonify(response), 200
@@ -310,5 +311,19 @@ def update_request_status(request_id):
         if "successfully" in result:
             return jsonify({"message": result}), 200
         return jsonify({"message": result}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@bp.route('/show_rooms', methods=['GET'])
+def show_all_rooms_route():
+    try:
+        result, status_code = models.show_all_room() 
+        if not result:
+            return jsonify({"message": "No rooms found."}), 404 
+        rooms = [
+            {key: value for key, value in zip(["RoomNo", "Roomtype", "floorNumber", "Max", "price", "F", "status"], row)}
+            for row in result
+        ]
+        return jsonify(rooms), status_code  
     except Exception as e:
         return jsonify({"error": str(e)}), 500
