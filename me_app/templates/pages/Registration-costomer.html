@@ -49,39 +49,42 @@ Register Customer
     <label for="roomNumber">Room Number:</label>
     <input type="number" id="roomNumber" name="roomNumber" required><br><br>
 
-    <button type="submit">Submit Registration</button>
+    <button id="submitBtn" type="submit">Submit Registration</button>
 </form>
 
 <div id="responseMessage" style="margin-top: 20px;"></div>
 
 <script>
-    document.getElementById("toggleFormBtn").addEventListener("click", function() {
-        const form = document.getElementById("registrationForm");
-        if (form.style.display === "none" || form.style.display === "") {
-            form.style.display = "block";
-            document.getElementById("toggleFormBtn").textContent = "Cancel Registration";
-        } else {
-            form.style.display = "none";
-            document.getElementById("toggleFormBtn").textContent = "Add Registration";
-        }
-    });
+  document.getElementById("toggleFormBtn").addEventListener("click", function() {
+    const form = document.getElementById("registrationForm");
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display = "block";
+        document.getElementById("toggleFormBtn").textContent = "Cancel Registration";
+    } else {
+        form.style.display = "none";
+        document.getElementById("toggleFormBtn").textContent = "Add Registration";
+    }
+});
 
-    document.getElementById("registrationForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+document.getElementById("submitBtn").addEventListener("click", function() {
+    // Collect form data
+    const formData = {
+        Id: document.getElementById('Id').value,
+        registrationDate: document.getElementById('registrationDate').value,
+        checkOutDate: document.getElementById('checkOutDate').value,
+        requiredAmount: document.getElementById('requiredAmount').value,
+        paidAmount: document.getElementById('paidAmount').value,
+        remainingAmount: document.getElementById('remainingAmount').value,
+        duration: document.getElementById('duration').value,
+        accommodationType: document.getElementById('accommodationType').value,
+        roomDetails: document.getElementById('roomDetails').value,
+        name: document.getElementById('name').value,
+        roomNumber: document.getElementById('roomNumber').value
+    };
 
-        const formData = {
-            Id: document.getElementById('Id').value,
-            registrationDate: document.getElementById('registrationDate').value,
-            checkOutDate: document.getElementById('checkOutDate').value,
-            requiredAmount: document.getElementById('requiredAmount').value,
-            paidAmount: document.getElementById('paidAmount').value,
-            remainingAmount: document.getElementById('remainingAmount').value,
-            duration: document.getElementById('duration').value,
-            accommodationType: document.getElementById('accommodationType').value,
-            roomDetails: document.getElementById('roomDetails').value,
-            name: document.getElementById('name').value,
-            roomNumber: document.getElementById('roomNumber').value
-        };
+    // Validate required fields
+    if (formData.Id && formData.registrationDate && formData.checkOutDate && formData.requiredAmount && formData.paidAmount) {
+        // Send data to backend via POST request
         fetch('/register', {
             method: 'POST',
             headers: {
@@ -93,15 +96,58 @@ Register Customer
         .then(data => {
             if (data.message === 'Registration added successfully') {
                 alert("Registration added successfully!");
-                
+                document.getElementById("registrationForm").reset(); // Reset form after submission
+                document.getElementById("registrationForm").style.display = "none"; // Hide the form
+                document.getElementById("toggleFormBtn").textContent = "Add Registration"; // Reset button text
             } else if (data.error) {
                 alert("Error: " + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('responseMessage').innerText = 'An error occurred. Please try again later.';
+            alert("An error occurred while adding the registration.");
         });
-    });
+    } else {
+        alert("Please fill out all required fields.");
+    }
+});
+
+// Function to load registrations (this can be called after adding a registration)
+function loadRegistrations() {
+    fetch('/registrationAll')
+        .then(response => response.json())
+        .then(registrations => {
+            const tableBody = document.querySelector("#registrationTableBody tbody");
+            tableBody.innerHTML = ""; // Clear any existing rows
+
+            registrations.forEach(registration => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${registration.CustomerName}</td>
+                    <td>${registration.RoomNo}</td>
+                    <td>${registration.CheckInDate}</td>
+                    <td>${registration.CheckOutDate}</td>
+                    <td>${registration.TotalAmount}</td>
+                    <td>${registration.PaidAmount}</td>
+                    <td>${registration.RemainingAmount}</td>
+                    <td>${registration.Status}</td>
+                    <td>
+                        <button class="delete-btn" data-id="${registration.Id}">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while loading registrations.");
+        });
+}
+
+// Call loadRegistrations() when the page loads
+window.onload = loadRegistrations;
+
 </script>
 {% endblock %}

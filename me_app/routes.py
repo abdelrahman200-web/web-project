@@ -43,6 +43,7 @@ def page_signin():
 # Returns Else statement response
 @bp.route('/register', methods=['POST'])
 def register_customer():
+    
     try:
         data = request.json
         result = models.add_registration(
