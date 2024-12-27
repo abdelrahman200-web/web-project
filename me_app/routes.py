@@ -7,6 +7,16 @@ bp=Blueprint("route",__name__)
 # ===========================================================================
 # route for pages template
 # ===========================================================================
+# Route for show all elelmnt for dashboard regsitration
+@bp.route('/dashboard/registration', methods=['GET'])
+def get_dashboard_registration():
+    try:
+        total_hotel_register, Order, Issues, Order_completed, Complaints_number,Check_out = models.dashbord_for_registration()
+        registration = models.show_all_registration()
+        return render_template('pages/show-registration.html',total_hotel_register=total_hotel_register , order_count = Order , Issues_count =  Issues ,
+                                total_oredr_completed = Order_completed  , Requests = Complaints_number , complaints_num = Check_out , registration=registration) , 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500    
 
 @bp.route('/home', methods=['GET'])
 def home():
@@ -349,7 +359,6 @@ def add_customer_route():
 
     except KeyError as e:
         return jsonify({"message": f"Missing required field: {str(e)}"}), 400
-    
 # Route to show all customers
 @bp.route('/customers', methods=['GET'])
 def show_all_customers_route():

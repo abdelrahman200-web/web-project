@@ -1,0 +1,121 @@
+{% extends "index.html" %}
+{% block head %}
+<link rel="stylesheet" href="../../static/show-registration.css">
+<link rel="stylesheet" href="../static/index.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="icon" href="../static/icons/Home.png">
+{% endblock %}
+{% block title %}
+show registration
+{% endblock %}
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-item item1">
+        <div class="icon">
+           <img src="../static/icons/Booking.png" alt="">
+        </div>
+        <div class="item">
+            <h3>register</h3>
+           <p> {{ total_hotel_register }}</p>
+        </div>
+    </div>    
+    <div class="dashboard-item item2">
+        <div class="icon">
+            <img src="../static/icons/Purchase Order-black.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Order</h3>
+            <p>{{ order_count }}</p>
+        </div>
+    </div>
+    <div class="dashboard-item item3">
+        <div class="icon">
+            <img src="../static/icons/Error.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Issues</h3>
+            <p>{{ Issues_count }}</p>
+        </div>
+    </div>
+    <div class="dashboard-item item4">
+        <div class="icon">
+            <img src="../static/icons/Order Completed.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Order completed</h3>
+            <p>{{ total_oredr_completed }}</p>
+        </div>
+    </div>
+    <div class="dashboard-item item5">
+        <div class="icon">
+            <img src="../static/icons/Order Completed.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Requests</h3>
+            <p>{{ Requests }}</p>
+        </div>
+    </div>
+    <div class="dashboard-item item6">
+        <div class="icon">
+            <img src="../static/icons/Order Completed.png" alt="">
+        </div>
+        <div class="item">
+            <h3>Complaints</h3>
+            <p>{{ complaints_num }}</p>
+        </div>
+    </div>
+    <!-- this calss must be show in the all data for registreatin -->
+    <div class="dashboard-item item7">
+        <div class="item">
+          <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>CheckInDate</th>
+                    <th>CheckOutDate</th>
+                    <th>TotalAmount</th>
+                    <th>PaidAmount</th>
+                    <th>RemainingAmount</th>
+                    <th>StayDuration</th>
+                    <th>accommodation</th>
+                    <th>note</th>
+                    <th>customer</th>
+                    <th>RoomNo</th>
+                    <th>status</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% for registration in registration %}
+                    <tr>
+                        <td>{{ registration.id }}</td>
+                        <td>{{ registration.CheckInDate }}</td>
+                        <td>{{ registration.CheckOutDate }}</td>
+                        <td>{{ registration.TotalAmount }}</td>
+                        <td>{{ registration.PaidAmount }}</td>
+                        <td>{{ registration.RemainingAmount }}</td>
+                        <td>{{ registration.StayDuration }}</td>
+                        <td>{{ registration.accommodation }}</td>
+                        <td>{{ registration.note }}</td>
+                        <td>{{ registration.customer }}</td>
+                        <td>{{ registration.RoomNo }}</td>
+                        <td>{{ registration.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+function get_registration(){
+    fetch('/registrationAll')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+}
+
+
+</script>
+{% endblock %}

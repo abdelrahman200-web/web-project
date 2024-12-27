@@ -10,6 +10,7 @@ body{
     position: relative;
     display: grid;
     grid-template-areas: 
+        "header header header header"
         "item1 item2 item3 item4"
         "item5 item5 item6 item6"
         "item7 item7 item7 item7";
@@ -52,11 +53,17 @@ body{
 .item4 { grid-area: item4; }
 .item5 { grid-area: item5; }
 .item6 { grid-area: item6; }
-.item7 { grid-area: item7;height: 424px;position: relative; }
-.item7 img { width: 700px;
-    height: 400px;
-    position: relative;
-    left: 45%;
+.item7 { grid-area: item7;height: 424px;position: relative; 
+overflow:auto;
+height: 424px;
+position: relative;
+overflow: auto;
+border: 1px solid #ddd;
+border-radius: 8px;
+padding: 10px;
+background-color: #f9f9f9;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .header-dashboard {
@@ -71,5 +78,42 @@ body{
 }
 .icon-user:hover {
     cursor: pointer;
-    
 }
+.item table {
+    position: absolute;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    top: 0px;
+  }
+  .item th,
+  .item td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+  }
+  
+  .item th {
+    background-color: #c2c1bd;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .item tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .item tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  .item td {
+    word-wrap: break-word;
+    font-size: 14px;
+  }
+  
+  .item thead {
+    top: 0;
+    z-index: 1;
+  }
+  

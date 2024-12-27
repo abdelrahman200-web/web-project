@@ -17,6 +17,15 @@ try:
                     Check_out = pointer.execute("SELECT COUNT(*) FROM registration WHERE status = 'check out'").fetchone()[0]
                     return Ready_room , Room_count , registration_number , Requests_number , Complaints_number , Check_out
         
+        def dashbord_for_registration():
+                    total_hotel_register = pointer.execute("SELECT COUNT(*) FROM registration").fetchone()[0]
+                    Order = pointer.execute("SELECT COUNT(*) FROM Requests").fetchone()[0]
+                    Issues = pointer.execute("SELECT COUNT(*) FROM Complaints").fetchone()[0]
+                    Order_completed = pointer.execute("SELECT COUNT(*) FROM Requests WHERE [request-status] ='completed'").fetchone()[0]
+                    Complaints_number = pointer.execute("SELECT COUNT(*) FROM Complaints").fetchone()[0]
+                    Check_out = pointer.execute("SELECT COUNT(*) FROM registration WHERE status = 'check out'").fetchone()[0]
+                    return total_hotel_register , Order , Issues , Order_completed , Complaints_number , Check_out
+        
         # add new registration
         # we shold add the status in request 
         #route
@@ -259,7 +268,8 @@ try:
                    return "Customer added successfully."
                except Exception as e:
                  print(f"Error: {e}")
-         #route        
+         #route     
+         # show all the customer   
         def get_customers():
           try:
               pointer.execute("SELECT * FROM customer")

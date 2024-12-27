@@ -61,7 +61,6 @@ ul {
     list-style: none;
     display: flex;
     flex-direction: column;
-    text-indent: 50px;
     gap: 10px;
     padding: 0;
     margin: 0;
@@ -79,21 +78,21 @@ ul a {
     height: 25px;
 }
 
+.sort-down{
+}
 .list-of-nav {
     border-bottom: 1px solid var(--nav-border-color);
     border-top: 1px solid var(--nav-border-color);
+    gap: 15px;
     padding: 10px;
-    display: flex;
     align-items: center;
+    
 }
 
-li {
-    font-weight: bold;
-    font-size: var(--nav-font-size);
-    cursor: pointer;
-}
 
 ul .list-of-nav:hover {
+
+    cursor: pointer;
     background-color: var(--hover-bg-color);
 }
 
@@ -123,3 +122,5 @@ ul .list-of-nav:hover {
         width: 100%;
     }
 }
+
+
