@@ -8,30 +8,36 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="icon" href="../static/icons/Home.png">
     <link rel="stylesheet" href="../static/index.css">
-    {% endblock %}
+    {% endblock%}
 </head>
 <body>
     <main class="d-flex">
         <nav class="d-flex">
             <div class="main-of-nav d-flex">
                 <i class="material-icons">home</i>
-                <h2>Customer Service</h2>
+                <h3>Customer Service</h3>
             </div>
             <ul class="d-flex">
-                <li id="Home"><a href="#">Home</a></li>
-                <li id="Rooms"><a href="#">Rooms</a></li>
-                <li>
-                    <select name="" id="Customer" class="dropdown">
-                        <option disabled selected>Customer Options</option>
-                        <option value="registration">Registration</option>
-                        <option value="registration-all">Registration All</option>
-                        <option value="Check-out">Check Out</option>
-                        <option value="Check-out-all">Check Out All</option>
-                    </select>
-                </li>
-                <li id="Requests"><a href="#">Requests</a></li>
-                <li id="Complaints"><a href="#">Complaints</a></li>
-                <li id="Reports"><a href="#">Reports</a></li>
+               <div class="list-of-nav d-flex">
+                <img src="../static/icons/Home.png" alt="">
+                 <li id="Home"><a href="#">home</a></li></div>
+               <div class="list-of-nav d-flex">
+                <img src="../static/icons/Room.png" alt="">
+                 <li id="Home"><a href="#">Rooms
+                </a></li></div>
+               <div class="list-of-nav d-flex">
+                <img src="../static/icons/Customer.png" alt="">
+                 <li id="Home"><a href="#">Customer
+                </a></li></div>
+               <div class="list-of-nav d-flex">
+                <img src="../static/icons/Order Completed.png" alt="">
+                 <li id="Home"><a href="#">Requests</a></li></div>
+               <div class="list-of-nav d-flex">
+                <img src="../static/icons/Complaint.png" alt="">
+                 <li id="Home"><a href="#">Complaints</a></li></div>
+               <div class="list-of-nav d-flex">
+                <img src="../static/icons/Add.png" alt="">
+                 <li id="Home"><a href="#">Reports</a></li></div>
             </ul>        
         </nav>
     </main>

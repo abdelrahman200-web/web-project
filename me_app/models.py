@@ -20,7 +20,7 @@ try:
         # add new registration
         # we shold add the status in request 
         #route
-        def add_registration(Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount, RemainingAmount, StayDuration, accommodation, note, customer, RoomNo, status):
+        def add_registration(Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount, RemainingAmount, StayDuration, accommodation, note, customer_ID, RoomNo, status):
             try:
                  query = '''
             INSERT INTO registration (
@@ -32,12 +32,13 @@ try:
         '''
                  pointer.execute(query, (Id, CheckInDate, CheckOutDate, TotalAmount, PaidAmount,
                                 RemainingAmount, StayDuration, accommodation, note,
-                                customer, RoomNo, status))
+                                customer_ID, RoomNo, status))
                  connection.commit()
                  return True
             except Exception as e:
               print(f"Error in add_registration: {e}")
               return False
+        
         # ================================================================
         # ==========================data access for Room =================
         #route

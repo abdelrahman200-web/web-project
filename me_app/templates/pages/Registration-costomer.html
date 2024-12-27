@@ -5,7 +5,6 @@ Register Customer
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="../../static/register.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="icon" href="../static/icons/Home.png">
 
@@ -15,46 +14,35 @@ Register Customer
 <button id="toggleFormBtn">Add Registration</button>
 
 <!-- Registration Form -->
-<form id="registrationForm" style="display: none; margin-top: 20px;">
+<form id="registrationForm" style=" display: none; margin-top: 20px;">
     <label for="Id">registration ID</label>
     <input type="number" id="Id" name="Id" required><br><br>
-
-    <label for="registrationDate">Registration Date:</label>
-    <input type="date" id="registrationDate" name="registrationDate" required><br><br>
-
-    <label for="checkOutDate">Check-Out Date:</label>
-    <input type="date" id="checkOutDate" name="checkOutDate" required><br><br>
-
-    <label for="requiredAmount">Required Amount:</label>
-    <input type="number" id="requiredAmount" name="requiredAmount" required><br><br>
-
-    <label for="paidAmount">Paid Amount:</label>
-    <input type="number" id="paidAmount" name="paidAmount" required><br><br>
-
-    <label for="remainingAmount">Remaining Amount:</label>
-    <input type="number" id="remainingAmount" name="remainingAmount" required><br><br>
-
-    <label for="duration">Duration (Days):</label>
-    <input type="text" id="duration" name="duration" required><br><br>
-
-    <label for="accommodationType">Accommodation Type:</label>
-    <input type="text" id="accommodationType" name="accommodationType" required><br><br>
-
-    <label for="roomDetails">Room Details:</label>
-    <input type="text"  id="roomDetails" name="roomDetails" required><br><br>
-
-    <label for="name">Customer ID:</label>
-    <input type="number" id="name" name="name" required><br><br>
-
-    <label for="roomNumber">Room Number:</label>
-    <input type="number" id="roomNumber" name="roomNumber" required><br><br>
-
-    <button id="submitBtn" type="submit">Submit Registration</button>
+    <label for="CheckInDate">Registration Date:</label>
+    <input type="date" id="CheckInDate" name="registrationDate" required><br><br>
+    <label for="CheckOutDate">Check-Out Date:</label>
+    <input type="date" id="CheckOutDate" name="CheckOutDate" required><br><br>
+    <label for="TotalAmount">Required Amount:</label>
+    <input type="number" id="TotalAmount" name="TotalAmount" required><br><br>
+    <label for="PaidAmount">Paid Amount:</label>
+    <input type="number" id="PaidAmount" name="PaidAmount" required><br><br>
+    <label for="RemainingAmount">Remaining Amount:</label>
+    <input type="number" id="RemainingAmount" name="RemainingAmount" required><br><br>
+    <label for="StayDuration">Duration (Days):</label>
+    <input type="text" id="StayDuration" name="StayDuration" required><br><br>
+    <label for="accommodation">Accommodation Type:</label>
+    <input type="text" id="accommodation" name="accommodation" required><br><br>
+    <label for="note">Room Details:</label>
+    <input type="text"  id="note" name="note" required><br><br>
+    <label for="customer_ID">Customer ID:</label>
+    <input type="number" id="customer_ID" name="customer_ID" required><br><br>
+    <label for="RoomNo">Room Number:</label>
+    <input type="number" id="RoomNo" name="RoomNo" required><br><br>
+   <input type="submit" value="Register" id="registerBtn">
 </form>
-
 <div id="responseMessage" style="margin-top: 20px;"></div>
-
 <script>
+// Toggle the registration form
+//================================================================================================
   document.getElementById("toggleFormBtn").addEventListener("click", function() {
     const form = document.getElementById("registrationForm");
     if (form.style.display === "none" || form.style.display === "") {
@@ -65,40 +53,35 @@ Register Customer
         document.getElementById("toggleFormBtn").textContent = "Add Registration";
     }
 });
-
-document.getElementById("submitBtn").addEventListener("click", function() {
-    // Collect form data
-    const formData = {
+//================================================================================================
+function add_register(){
+    // collect form data
+    const dataf = {
         Id: document.getElementById('Id').value,
-        registrationDate: document.getElementById('registrationDate').value,
-        checkOutDate: document.getElementById('checkOutDate').value,
-        requiredAmount: document.getElementById('requiredAmount').value,
-        paidAmount: document.getElementById('paidAmount').value,
-        remainingAmount: document.getElementById('remainingAmount').value,
-        duration: document.getElementById('duration').value,
-        accommodationType: document.getElementById('accommodationType').value,
-        roomDetails: document.getElementById('roomDetails').value,
-        name: document.getElementById('name').value,
-        roomNumber: document.getElementById('roomNumber').value
+        CheckInDate: document.getElementById('CheckInDate').value,
+        CheckOutDate: document.getElementById('CheckOutDate').value,
+        TotalAmount: document.getElementById('TotalAmount').value,
+        PaidAmount: document.getElementById('PaidAmount').value,
+        RemainingAmount: document.getElementById('RemainingAmount').value,
+        StayDuration: document.getElementById('StayDuration').value,
+        accommodation: document.getElementById('accommodation').value,
+        note: document.getElementById('note').value,
+        customer_ID: document.getElementById('customer_ID').value,
+        RoomNo: document.getElementById('RoomNo').value
     };
-
-    // Validate required fields
-    if (formData.Id && formData.registrationDate && formData.checkOutDate && formData.requiredAmount && formData.paidAmount) {
-        // Send data to backend via POST request
+    //================================================================================================
+    // Send the data to the server
         fetch('/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(dataf)
         })
         .then(response => response.json())
         .then(data => {
             if (data.message === 'Registration added successfully') {
                 alert("Registration added successfully!");
-                document.getElementById("registrationForm").reset(); // Reset form after submission
-                document.getElementById("registrationForm").style.display = "none"; // Hide the form
-                document.getElementById("toggleFormBtn").textContent = "Add Registration"; // Reset button text
             } else if (data.error) {
                 alert("Error: " + data.message);
             }
@@ -107,47 +90,47 @@ document.getElementById("submitBtn").addEventListener("click", function() {
             console.error('Error:', error);
             alert("An error occurred while adding the registration.");
         });
-    } else {
-        alert("Please fill out all required fields.");
-    }
-});
-
-// Function to load registrations (this can be called after adding a registration)
-function loadRegistrations() {
-    fetch('/registrationAll')
-        .then(response => response.json())
-        .then(registrations => {
-            const tableBody = document.querySelector("#registrationTableBody tbody");
-            tableBody.innerHTML = ""; // Clear any existing rows
-
-            registrations.forEach(registration => {
-                const row = document.createElement("tr");
-
-                row.innerHTML = `
-                    <td>${registration.CustomerName}</td>
-                    <td>${registration.RoomNo}</td>
-                    <td>${registration.CheckInDate}</td>
-                    <td>${registration.CheckOutDate}</td>
-                    <td>${registration.TotalAmount}</td>
-                    <td>${registration.PaidAmount}</td>
-                    <td>${registration.RemainingAmount}</td>
-                    <td>${registration.Status}</td>
-                    <td>
-                        <button class="delete-btn" data-id="${registration.Id}">Delete</button>
-                    </td>
-                `;
-
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("An error occurred while loading registrations.");
-        });
+    
 }
+//================================================================================================
+document.getElementById("registerBtn").addEventListener("click", add_register);
+//================================================================================================
+// Function to load registrations (this can be called after adding a registration)
+// function loadRegistrations() {
+//     fetch('/registrationAll')
+//         .then(response => response.json())
+//         .then(registrations => {
+//             const tableBody = document.querySelector("#registrationTableBody tbody");
+//             tableBody.innerHTML = ""; // Clear any existing rows
+
+//             registrations.forEach(registration => {
+//                 const row = document.createElement("tr");
+
+//                 row.innerHTML = `
+//                     <td>${registration.CustomerName}</td>
+//                     <td>${registration.RoomNo}</td>
+//                     <td>${registration.CheckInDate}</td>
+//                     <td>${registration.CheckOutDate}</td>
+//                     <td>${registration.TotalAmount}</td>
+//                     <td>${registration.PaidAmount}</td>
+//                     <td>${registration.RemainingAmount}</td>
+//                     <td>${registration.Status}</td>
+//                     <td>
+//                         <button class="delete-btn" data-id="${registration.Id}">Delete</button>
+//                     </td>
+//                 `;
+
+//                 tableBody.appendChild(row);
+//             });
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             alert("An error occurred while loading registrations.");
+//         });
+// }
 
 // Call loadRegistrations() when the page loads
-window.onload = loadRegistrations;
+// window.onload = loadRegistrations;
 
 </script>
 {% endblock %}

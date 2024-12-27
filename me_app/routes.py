@@ -47,18 +47,18 @@ def register_customer():
     try:
         data = request.json
         result = models.add_registration(
-            Id=data['Id'],
-            CheckInDate=data['registrationDate'],
-            CheckOutDate=data['checkOutDate'],
-            TotalAmount=data['requiredAmount'],
-            PaidAmount=data['paidAmount'],
-            RemainingAmount=data['remainingAmount'],
-            StayDuration=data['duration'],
-            accommodation=data['accommodationType'],
-            note=data['roomDetails'],
-            customer=data['name'],
-            RoomNo=data['roomNumber'],
-            status='check in'
+            Id=data['Id'], #interger
+            CheckInDate=data['CheckInDate'], #date
+            CheckOutDate=data['CheckOutDate'], #date
+            TotalAmount=data['TotalAmount'], #interger
+            PaidAmount=data['PaidAmount'], #interger
+            RemainingAmount=data['RemainingAmount'], #interger
+            StayDuration=data['StayDuration'], #text
+            accommodation=data['accommodation'], # text
+            note=data['note'], #text 
+            customer_ID = data['customer_ID'], #interger # make shure the ID for customer is placed in database for customer
+            RoomNo=data['RoomNo'], #interger # make shure the ID for RoomNo is placed in database for RoomNo
+            status='check in' #text
         )
         if result:
             return jsonify({"message": "Registration added successfully."}), 201
