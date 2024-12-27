@@ -8,6 +8,9 @@ bp=Blueprint("route",__name__)
 # route for pages template
 # ===========================================================================
 # Route for show all elelmnt for dashboard regsitration
+@bp.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
 @bp.route('/dashboard/registration', methods=['GET'])
 def get_dashboard_registration():
     try:
@@ -275,19 +278,17 @@ def sherch_costomer(costomer_name):
         return jsonify({"error": str(e)}), 500
     
 # Route to search customer by ID
-# Return line 237 --> 404
 @bp.route('/customer/<int:customer_id>', methods=['GET'])
 def search_customer(customer_id):
     try:
-        result = models.sherch_coustomer_id(customer_id)
-        if isinstance(result, str):  # Handle "Customer not found" or error message
-            return jsonify({"message": result}), 404
-        return jsonify([dict(row) for row in result]), 200
+        data, status_code = models.sherch_coustomer_id(customer_id)
+        if status_code == 404:
+            return jsonify({"error": data}), 404        
+        return jsonify(data), status_code 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # Route to search registration by ID
-# Return line 249 --> 404
 @bp.route('/registration/<int:registration_id>', methods=['GET'])
 def search_registration(registration_id):
     try:

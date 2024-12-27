@@ -69,7 +69,6 @@ function add_register(){
         customer_ID: document.getElementById('customer_ID').value,
         RoomNo: document.getElementById('RoomNo').value
     };
-    //================================================================================================
     // Send the data to the server
         fetch('/register', {
             method: 'POST',
@@ -92,45 +91,6 @@ function add_register(){
         });
     
 }
-//================================================================================================
 document.getElementById("registerBtn").addEventListener("click", add_register);
-//================================================================================================
-// Function to load registrations (this can be called after adding a registration)
-// function loadRegistrations() {
-//     fetch('/registrationAll')
-//         .then(response => response.json())
-//         .then(registrations => {
-//             const tableBody = document.querySelector("#registrationTableBody tbody");
-//             tableBody.innerHTML = ""; // Clear any existing rows
-
-//             registrations.forEach(registration => {
-//                 const row = document.createElement("tr");
-
-//                 row.innerHTML = `
-//                     <td>${registration.CustomerName}</td>
-//                     <td>${registration.RoomNo}</td>
-//                     <td>${registration.CheckInDate}</td>
-//                     <td>${registration.CheckOutDate}</td>
-//                     <td>${registration.TotalAmount}</td>
-//                     <td>${registration.PaidAmount}</td>
-//                     <td>${registration.RemainingAmount}</td>
-//                     <td>${registration.Status}</td>
-//                     <td>
-//                         <button class="delete-btn" data-id="${registration.Id}">Delete</button>
-//                     </td>
-//                 `;
-
-//                 tableBody.appendChild(row);
-//             });
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//             alert("An error occurred while loading registrations.");
-//         });
-// }
-
-// Call loadRegistrations() when the page loads
-// window.onload = loadRegistrations;
-
 </script>
 {% endblock %}

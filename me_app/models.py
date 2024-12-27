@@ -206,14 +206,16 @@ try:
        #    sherch the coutomer by id
         #route
         def sherch_coustomer_id(ID):
-           try:
-             query = "SELECT * FROM customer WHERE id = ?"
-             result = pointer.execute(query, (ID,)).fetchall()
-             if len(result) == 0:
-                return "Customer not found."
-             return result
-           except Exception as e:
-            return str(e)
+          try:
+              query = "SELECT * FROM customer WHERE [identity] = ?"
+              result = pointer.execute(query, (ID,)).fetchall()
+              if len(result) == 0:
+                 return "Customer not found.", 404
+              columns = [desc[0] for desc in pointer.description]  
+              result_dict = [dict(zip(columns, row)) for row in result]        
+              return result_dict, 200
+          except Exception as e:
+              return str(e), 404
         # for sherch the registration by ID
         #route
         def sherch_registration_id(ID):

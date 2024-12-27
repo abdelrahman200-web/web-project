@@ -20,24 +20,24 @@
             <ul class="d-flex">
                <div class="list-of-nav d-flex">
                 <img src="../static/icons/Home.png" alt="">
-                 <li id="Home"><a href="#">home</a></li>
+                 <li id="Home"><a href="{{url_for('route.home')}}">home</a></li>
                 </div>
-                <div class="list-of-nav d-flex">
+               
+                <div class="list-of-nav d-flex Registration">
                     <img src="../static/icons/Task.png" alt="">
-                    <li id="Home"><a href="#">Registration</a></li><img class="sort-down" src="../static/icons/Down Button.png"alt="">
-                    <div class="drop-down">
-                        <li>Add Registr</li>
-                        <li>show Registr</li>
-
+                    <li id="Home"><a href="#">Registration</a></li>
+                    <div class="drop-down d-flex">
+                        <li><a href="#">Add Registr</a></li>
+                        <li><a href="{{url_for('route.get_dashboard_registration')}}">Show Registr</a></li>
                     </div>
-                </div>
+                </div>                
                <div class="list-of-nav d-flex">
                 <img src="../static/icons/Room.png" alt="">
-                 <li id="Home"><a href="#">Rooms
+                 <li id="Home"><a href="{{url_for('route.page_rooms')}}">Rooms
                 </a></li></div>
                <div class="list-of-nav d-flex">
                 <img src="../static/icons/Customer.png" alt="">
-                 <li id="Home"><a href="#">Customer
+                 <li id="Home"><a href="{{url_for('route.page_show_customer')}}">Customer
                 </a></li></div>
                <div class="list-of-nav d-flex">
                 <img src="../static/icons/Order Completed.png" alt="">
@@ -54,8 +54,11 @@
     <div class="content-anthore-page">
     {% block content %}
 
-    
+
     {%endblock%}
 </div>
+<script>
+    
+</script>
 </body>
 </html>
