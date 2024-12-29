@@ -84,6 +84,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-collapse: collapse;
     font-family: Arial, sans-serif;
     top: 0px;
+    width: 98%;
   }
   .item th,
   .item td {

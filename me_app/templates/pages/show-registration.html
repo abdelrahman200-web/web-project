@@ -87,7 +87,7 @@ show registration
                 <tbody>
                     {% for registration in registration %}
                     <tr>
-                        <td>{{ registration.id }}</td>
+                        <td>{{ registration.Id }}</td>
                         <td>{{ registration.CheckInDate }}</td>
                         <td>{{ registration.CheckOutDate }}</td>
                         <td>{{ registration.TotalAmount }}</td>
@@ -107,15 +107,5 @@ show registration
     </div>
 </div>
 </div>
-<script>
-function get_registration(){
-    fetch('/registrationAll')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-}
 
-
-</script>
 {% endblock %}

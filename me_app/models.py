@@ -45,9 +45,8 @@ try:
                  connection.commit()
                  return True
             except Exception as e:
-              print(f"Error in add_registration: {e}")
-              return False
-        
+                 print(f"Error in add_registration: {e}")
+                 return False
         # ================================================================
         # ==========================data access for Room =================
         #route
@@ -65,12 +64,13 @@ try:
         # route
         def delate_Room(RoomNo):
             try:
-                query = "DELATE * FROM Room where RoomNo = ?"
+                query = "DELETE FROM Room WHERE RoomNo = ?;"
                 pointer.execute(query, (RoomNo,))
                 connection.commit()
-                return f"Room {RoomNo} deleted successfully."
+                return 1,200
             except Exception as e:
-                return f"Error deleting room: {e}"
+                return 0,404
+       
             #route
         def update_room_info(Room_number, Roomtype, floorNumber, max_capacity, price, F, status):
             try:
@@ -167,11 +167,10 @@ try:
         def show_all_registration():
                  try:
                      result = pointer.execute("SELECT * FROM registration").fetchall()
-                     return result
+                     return result , 200
                  except Exception as e:
                      print(f"Error fetching all registrations: {e}")
-                     return []
-
+                     return [], 404
 # show all the customer in check in mode
         #route
         def show_customer_check_in():
@@ -198,11 +197,10 @@ try:
                query = "SELECT * FROM customer WHERE name = ?"
                result = pointer.execute(query, (name,)).fetchall()
                if len(result) == 0:
-                  return "Customer not found."
-               return result
+                  return "Customer not found." , 404
+               return result , 200
             except Exception as e:
-                return str(e)
-
+                return str(e) , 404
        #    sherch the coutomer by id
         #route
         def sherch_coustomer_id(ID):
@@ -242,14 +240,13 @@ try:
         #route
         def updata_status_requests(ID)  :
            try:
-            query = "UPDATE Requests SET [request-status] = 'completed' WHERE Id = ?"
+            query = "UPDATE Requests SET [request-status] = 'completed' WHERE [Requests-No] = ?"
             pointer.execute(query, (ID,))
             connection.commit()
             return "Request status updated successfully."
            except Exception as e:
              return str(e)
         #route
-        
         def show_all_room():
             try:
                 result = pointer.execute("SELECT * FROM Room").fetchall()

@@ -15,7 +15,7 @@ def index():
 def get_dashboard_registration():
     try:
         total_hotel_register, Order, Issues, Order_completed, Complaints_number,Check_out = models.dashbord_for_registration()
-        registration = models.show_all_registration()
+        registration,s = models.show_all_registration()
         return render_template('pages/show-registration.html',total_hotel_register=total_hotel_register , order_count = Order , Issues_count =  Issues ,
                                 total_oredr_completed = Order_completed  , Requests = Complaints_number , complaints_num = Check_out , registration=registration) , 200
     except Exception as e:
@@ -73,8 +73,8 @@ def register_customer():
             RoomNo=data['RoomNo'], #interger # make shure the ID for RoomNo is placed in database for RoomNo
             status='check in' #text
         )
-        if result:
-            return jsonify({"message": "Registration added successfully."}), 201
+        if result==1:
+            return jsonify({"Registration added successfully."}), 201
         else:
             return jsonify({"error": "An error occurred while processing the request."}), 400
     except Exception as e:
@@ -84,8 +84,11 @@ def register_customer():
 @bp.route('/room/delate/<Room_number>', methods=['DELETE'])
 def delete_room(Room_number):
     try:
-        models.delate_Room(Room_number) 
-        return jsonify({"message": "Room deleted successfully."}), 200
+        m , S=models.delate_Room(Room_number) 
+        if m:
+            return jsonify({"message": "Room deleted successfully."}), S
+        else:
+            return jsonify({"error": "An error occurred while processing the request."}), S
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -113,21 +116,63 @@ def get_dashboard_data():
 @bp.route('/customers/checkin', methods=['GET'])
 def get_customers_check_in():
     try:
-        customers_check_in = models.show_customer_check_in()  # Call show_customer_check_in from models
-        return jsonify([dict(row) for row in customers_check_in]), 200
+        # Call show_customer_check_in from models to get the registration data
+        customers_check_in = models.show_customer_check_in()
+        # If the result is an error message, return it as an error response
+        if isinstance(customers_check_in, str):
+            return jsonify({"error": customers_check_in}), 500
+        # Manually map rows to a dictionary with customer and registration details
+        customers = []
+        for row in customers_check_in:
+            customer_dict = {
+                "registration_id": row[0],          # registration Id
+                "check_in_date": row[1],             # Check-in Date
+                "check_out_date": row[2],            # Check-out Date
+                "total_amount": row[3],              # Total Amount
+                "paid_amount": row[4],               # Paid Amount
+                "remaining_amount": row[5],          # Remaining Amount
+                "stay_duration": row[6],             # Stay Duration
+                "accommodation": row[7],             # Accommodation
+                "note": row[8],                     # Note
+                "customer_name": row[9],            # Customer's name
+                "customer_phone": row[10],          # Customer's phone
+            }
+            customers.append(customer_dict)
+        
+        return jsonify(customers), 200
+    
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # Route to get customers who have checked out
-# Returns [] empty 
 @bp.route('/customers/checkout', methods=['GET'])
 def get_customers_check_out():
     try:
-        customers_check_out = models.show_customer_check_out()  # Call show_customer_check_out from models
-        return jsonify([dict(row) for row in customers_check_out]), 200
+        customers_check_out = models.show_customer_check_out()
+        if isinstance(customers_check_out, str):
+            return jsonify({"error": customers_check_out}), 500
+        customers = []
+        for row in customers_check_out:
+            customer_dict = {
+                "registration_id": row[0],          # registration Id
+                "check_in_date": row[1],             # Check-in Date
+                "check_out_date": row[2],            # Check-out Date
+                "total_amount": row[3],              # Total Amount
+                "paid_amount": row[4],               # Paid Amount
+                "remaining_amount": row[5],          # Remaining Amount
+                "stay_duration": row[6],             # Stay Duration
+                "accommodation": row[7],             # Accommodation
+                "note": row[8],                     # Note
+                "customer_name": row[9],            # Customer's name
+                "customer_phone": row[10],          # Customer's phone
+            }
+            customers.append(customer_dict)
+
+        # Return the data as a JSON response
+        return jsonify(customers), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
 # Route to handle room addition
 @bp.route('/addroom', methods=['POST'])
 def add_room_route():
@@ -261,22 +306,59 @@ def check_out():
 # Route for show all registration in a customer
 # Return 200
 @bp.route('/registrationAll', methods=['GET'])
-def show_all_registration():
+def show_all_registration_route():
     try:
-        all_registration = models.show_all_registration()
-        return jsonify([dict(row) for row in all_registration]), 200
+        # Fetch the result and status code from the model function
+        result, status_code = models.show_all_registration()  
+        if status_code != 200:
+            return jsonify({"message": "No registrations found."}), status_code         
+        # Map the database rows to dictionaries with relevant fields
+        registrations = [
+            {
+                "id": row[0], 
+                "check_in_date": row[1], 
+                "check_out_date": row[2], 
+                "total_amount": row[3], 
+                "paid_amount": row[4], 
+                "remaining_amount": row[5],
+                "stay_duration": row[6],
+                "accommodation": row[7],
+                "note": row[8],
+                "customer_id": row[9],
+                "room_no": row[10],
+                "status": row[11]
+            }
+            for row in result
+        ]        
+        return jsonify(registrations), status_code  
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 # Route for sarch a customer by name
 # IDK Return 404
-@bp.route('/sarch/<int:costomer_name>', methods=['GET'])
+@bp.route('/sarch/<costomer_name>', methods=['GET'])
 def sherch_costomer(costomer_name):
     try:
-        all_registration = models.search_customer(costomer_name)
-        return jsonify([dict(row) for row in all_registration]), 200
+        all_registration, status_code = models.search_customer(costomer_name)
+        if status_code != 200:
+            return jsonify({"message": "No customers found."}), status_code
+        customers = [
+            {
+                "identity": row[0], 
+                "name": row[1], 
+                "phone": row[2], 
+                "another_phone": row[3],
+                "age": row[4], 
+                "email": row[5], 
+                "nationality": row[6], 
+                "type_of_proof_of": row[7]
+            }
+            for row in all_registration
+        ]        
+        # Return the result as a JSON response
+        return jsonify(customers), status_code  
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+        
 # Route to search customer by ID
 @bp.route('/customer/<int:customer_id>', methods=['GET'])
 def search_customer(customer_id):
@@ -293,9 +375,21 @@ def search_customer(customer_id):
 def search_registration(registration_id):
     try:
         result = models.sherch_registration_id(registration_id)
+        
         if isinstance(result, str):  # Handle "Registration not found" or error message
             return jsonify({"message": result}), 404
-        return jsonify([dict(row) for row in result]), 200
+        
+        # Convert the result to a dictionary if it's a tuple
+        columns = ["Id", "CheckInDate", "CheckOutDate", "TotalAmount", "PaidAmount", 
+                   "RemainingAmount", "StayDuration", "accommodation", "note", 
+                   "customer", "RoomNo", "status"]
+        
+        registration_data = [
+            dict(zip(columns, row)) for row in result
+        ]
+        
+        return jsonify(registration_data), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -305,12 +399,14 @@ def search_registration(registration_id):
 def search_request(request_id):
     try:
         result = models.sherch_requests_by_id(request_id)
-        if len(result) == 0:
+        if not result:
             return jsonify({"message": "Request not found."}), 404
-        return jsonify([dict(row) for row in result]), 200
+        columns = ["Requests-No", "request-type", "request-status", "request-details", "RoomID", "amount"]
+        requests_data = [dict(zip(columns, row)) for row in result]
+        return jsonify(requests_data), 200  # Return the result as a JSON response
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+    
 # Route to update the status of a request
 # Return 400 
 @bp.route('/request/<int:request_id>/status', methods=['PUT'])
@@ -376,6 +472,22 @@ def show_all_customers_route():
 
     except Exception as e:
         return jsonify({"error": str(e)}), status_code
+from flask import Flask, request, jsonify, make_response
+
+app = Flask(__name__)
+
+@app.route('/set_cookie', methods=['GET'])
+def set_cookie():
+    try:
+        # Create a response object
+        response = make_response(jsonify({"message": "Cookie has been set!"}))
+        
+        # Set the cookie (key, value)
+        response.set_cookie('user_id', '12345', max_age=60*60*24, httponly=True)  # Cookie lasts 1 day
+        
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 # ===========================================================================
 # ===========================================================================

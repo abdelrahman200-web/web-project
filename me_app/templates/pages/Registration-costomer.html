@@ -5,16 +5,15 @@ Register Customer
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="../../static/R-costomer.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="icon" href="../static/icons/Home.png">
 
 <h1>Register New Customer</h1>
 
-<!-- Button to toggle the registration form -->
-<button id="toggleFormBtn">Add Registration</button>
 
 <!-- Registration Form -->
-<form id="registrationForm" style=" display: none; margin-top: 20px;">
+<form id="registrationForm" style=" display: block; margin-top: 20px;">
     <label for="Id">registration ID</label>
     <input type="number" id="Id" name="Id" required><br><br>
     <label for="CheckInDate">Registration Date:</label>
@@ -41,19 +40,6 @@ Register Customer
 </form>
 <div id="responseMessage" style="margin-top: 20px;"></div>
 <script>
-// Toggle the registration form
-//================================================================================================
-  document.getElementById("toggleFormBtn").addEventListener("click", function() {
-    const form = document.getElementById("registrationForm");
-    if (form.style.display === "none" || form.style.display === "") {
-        form.style.display = "block";
-        document.getElementById("toggleFormBtn").textContent = "Cancel Registration";
-    } else {
-        form.style.display = "none";
-        document.getElementById("toggleFormBtn").textContent = "Add Registration";
-    }
-});
-//================================================================================================
 function add_register(){
     // collect form data
     const dataf = {
@@ -79,8 +65,8 @@ function add_register(){
         })
         .then(response => response.json())
         .then(data => {
-            if (data.message === 'Registration added successfully') {
-                alert("Registration added successfully!");
+            if (data.message === 'Registration added successfully.') {
+                alert("Registration added successfully");
             } else if (data.error) {
                 alert("Error: " + data.message);
             }
